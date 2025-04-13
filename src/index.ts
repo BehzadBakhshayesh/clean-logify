@@ -5,7 +5,6 @@ export interface cleanlogifyConfig {
     tags?: string[];
     colors?: Record<string, string>;
 }
-
 const cleanlogify = (() => {
     let enabled = true;
     let allowedTags = new Set<string>();
@@ -21,21 +20,48 @@ const cleanlogify = (() => {
         tagColors = new Map(Object.entries(colors));
     };
 
-    const log = (message: any, tag: string = 'default', level: LogLevel = 'log') => {
+    const log = (messages: any[], tag: string = 'default', level: LogLevel = 'log') => {
         if (!enabled) return;
         if (allowedTags.size > 0 && !allowedTags.has(tag)) return;
 
         const prefix = `[${tag.toUpperCase()}]`;
         const color = tagColors.get(tag) || '#03a9f4';
-        console[level](`%c${prefix}`, `color: ${color}; font-weight: bold`, message);
+        console[level](`%c${prefix}`, `color: ${color}; font-weight: bold`, ...messages);
+    };
+
+    const extractArgs = (args: any[]): { tag: string; messages: any[] } => {
+        if (args.length === 0) return { tag: 'default', messages: [] };
+        const maybeTag = args[args.length - 1];
+        if (typeof maybeTag === 'string') {
+            return {
+                tag: maybeTag,
+                messages: args.slice(0, -1),
+            };
+        }
+        return {
+            tag: 'default',
+            messages: args,
+        };
     };
 
     return {
         config,
-        log: (msg: any, tag?: string) => log(msg, tag, 'log'),
-        info: (msg: any, tag?: string) => log(msg, tag, 'info'),
-        warn: (msg: any, tag?: string) => log(msg, tag, 'warn'),
-        error: (msg: any, tag?: string) => log(msg, tag, 'error'),
+        log: (...args: any[]) => {
+            const { tag, messages } = extractArgs(args);
+            log(messages, tag, 'log');
+        },
+        info: (...args: any[]) => {
+            const { tag, messages } = extractArgs(args);
+            log(messages, tag, 'info');
+        },
+        warn: (...args: any[]) => {
+            const { tag, messages } = extractArgs(args);
+            log(messages, tag, 'warn');
+        },
+        error: (...args: any[]) => {
+            const { tag, messages } = extractArgs(args);
+            log(messages, tag, 'error');
+        },
     };
 })();
 
