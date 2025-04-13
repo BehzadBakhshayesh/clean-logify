@@ -2,24 +2,20 @@ const browserLogger = (() => {
     let enabled = true;
     let allowedTags = new Set();
     let tagColors = new Map();
-    let env = 'development';
 
     const config = ({
         enabled: en = true,
         tags = [],
         colors = {},
-        env: environment = 'development',
+
     } = {}) => {
         enabled = en;
         allowedTags = new Set(tags);
         tagColors = new Map(Object.entries(colors));
-        env = environment;
     };
 
     const log = (message, tag = 'default', level = 'log') => {
-        if (!enabled || env === 'production') {
-            return;
-        }
+
         if (allowedTags.size > 0 && !allowedTags.has(tag)) {
             return;
         }
@@ -44,8 +40,7 @@ const browserLogger = (() => {
 
 browserLogger.config({
     enabled: true,
-    env: 'development',
-    tags: ['a', 'b', 'c'],
+    tags: ['c'],
     colors: {
         a: '#4caf50',
         b: '#ff9800',
@@ -59,5 +54,8 @@ browserLogger.log('33333333333333333333333333333333', 'a');
 browserLogger.log('44444444444444444444444444444444', 'a');
 browserLogger.log('55555555555555555555555555555555', 'b');
 browserLogger.log('66666666666666666666666666666666', 'b');
-browserLogger.log('77777777777777777777777777777777', 'c');
-browserLogger.log('88888888888888888888888888888888', 'c');
+browserLogger.warn('77777777777777777777777777777777', 'c');
+browserLogger.warn('88888888888888888888888888888888', 'c');
+
+
+cleanlog
