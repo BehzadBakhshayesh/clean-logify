@@ -1,5 +1,5 @@
 
-# 📦 cl
+# 📦 clean-logify
 
 A lightweight and customizable console logger for the browser.  
 Supports environments, colored tags, filtering, and multiple log levels.
@@ -9,13 +9,13 @@ Supports environments, colored tags, filtering, and multiple log levels.
 ## 🚀 Installation
 
 ```bash
-npm install cl
+npm install clean-logify
 ```
 
 or
 
 ```bash
-yarn add cl
+yarn add clean-logify
 ```
 
 ---
@@ -40,9 +40,9 @@ cl.config({
   enabled: true,
   tags: ['auth', 'api', 'ui'],
   colors: {
-    auth: '#4caf50', // green
-    api: '#ff9800',  // orange
-    ui: '#9c27b0'    // purple
+    auth: '#4caf50', 
+    api: '#ff9800',  
+    ui: '#9c27b0'   
   }
 });
 
