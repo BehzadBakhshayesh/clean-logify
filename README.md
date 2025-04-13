@@ -1,4 +1,3 @@
-
 # 📦 clean-logify
 
 A lightweight and customizable console logger for the browser.  
@@ -23,10 +22,10 @@ yarn add clean-logify
 ## 📌 Features
 
 - ✅ Enable/disable globally
-- 🎯 Filter logs by tag
-- 🎨 Custom colors per tag
+- 🎯 Per-tag settings (enable, color, time, bold)
+- ⏰ Timestamp
 - 📦 ESM + CJS support
-- ⚙️ TypeScript types included
+- ⚙️ Written in TypeScript
 
 ---
 
@@ -35,19 +34,34 @@ yarn add clean-logify
 ```ts
 import cl from 'clean-logify';
 
-// Configure once (e.g. in your app entry)
+// Configuration
 cl.config({
-  enabled: true,
-  tags: ['auth', 'api', 'ui'],
-  colors: {
-    auth: '#4caf50', 
-    api: '#ff9800',  
-    ui: '#9c27b0'   
-  }
+  enabledAll: true, // Optional: you can use process.env.NODE_ENV === 'development' for dynamic environments
+
+  tags: {
+    auth: {
+      color: '#4caf50',  
+      isBold: true,      
+      hasTime: true,      
+      enabled: true       
+    },
+    api: {
+      color: '#ff9800', 
+      isBold: false,
+      hasTime: true,
+      enabled: true
+    },
+    ui: {
+      color: '#9c27b0',  
+      isBold: true,
+      hasTime: true,
+      enabled: false      
+    },
+  },
 });
 
-// Logging
-cl.log('User signed in', 'auth');
+// Logging examples
+cl.log('User signed in', { name: 'Mike' }, [1, 2, 3], 'auth');
 cl.info('Fetching data...', 'api');
 cl.warn('No UI theme selected', 'ui');
 cl.error('Something went wrong', 'api');
@@ -55,25 +69,40 @@ cl.error('Something went wrong', 'api');
 
 ---
 
-## 📁 Config Options
+## 🛠️ Config Options
 
-| Option    | Type                    | Description                          |
-|-----------|-------------------------|--------------------------------------|
-| `enabled` | `boolean`               | Enable/disable all logging           |
-| `tags`    | `string[]`              | Allowed tags for logging             |
-| `colors`  | `Record<string,string>` | Custom colors per tag in hex format  |
+```ts
+interface cleanlogifyConfig {
+  enabledAll?: boolean; // default: true
+  tags?: Record<string, {
+    color?: string;      // default: '#03a9f4'
+    isBold?: boolean;    // default: true
+    hasTime?: boolean;   // default: true
+    enabled?: boolean;   // default: true
+  }>
+}
+```
+
+| Option       | Type                        | Description                            |
+|--------------|-----------------------------|----------------------------------------|
+| `enabledAll` | `boolean`                   | Enable/disable logging globally        |
+| `tags`       | `Record<string, TagConfig>` | Configure each tag (color, bold, etc.) |
 
 ---
 
-## 🔧 Example in CommonJS
+## 🔧 CommonJS Example
 
 ```js
 const cl = require('clean-logify');
 
 cl.config({
-  enabled: true,
-  tags: ['debug'],
-  colors: { debug: 'teal' }
+  enabledAll: true,
+  tags: {
+    debug: {
+      color: 'teal',
+      enabled: true,
+    }
+  }
 });
 
 cl.log('CJS works!', 'debug');
@@ -81,16 +110,13 @@ cl.log('CJS works!', 'debug');
 
 ---
 
-## 📤 Output Example (in console)
+## 🖨️ Console Output Example
 
-```bash
-[AUTH] User signed in
-[API] Fetching data...
-[UI] No UI theme selected
 ```
-
----
-
+2025-04-13T22:18:51.199Z [AUTH] User signed in { name: 'Mike' } [ 1, 2, 3 ]
+2025-04-13T22:18:51.219Z [API] Fetching data...
+2025-04-13T22:18:51.220Z [UI] No UI theme selected
+```
 
 ## Author
 
