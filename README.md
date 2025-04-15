@@ -39,19 +39,19 @@ cl.config({
   enabledAll: true, // Optional: you can use process.env.NODE_ENV === 'development' for dynamic environments
 
   tags: {
-    auth: {
+    TAG1: {
       color: '#4caf50',  
       isBold: true,      
       hasTime: true,      
       enabled: true       
     },
-    api: {
+    TAG2: {
       color: '#ff9800', 
       isBold: false,
       hasTime: true,
       enabled: true
     },
-    ui: {
+    TAG3: {
       color: '#9c27b0',  
       isBold: true,
       hasTime: true,
@@ -61,10 +61,10 @@ cl.config({
 });
 
 // Logging examples
-cl.log('User signed in', { name: 'Mike' }, [1, 2, 3], 'auth');
-cl.info('Fetching data...', 'api');
-cl.warn('No UI theme selected', 'ui');
-cl.error('Something went wrong', 'api');
+cl.log('User signed in', { name: 'Mike' }, [1, 2, 3], 'TAG1');
+cl.info('Fetching data...', 'TAG2');
+cl.warn('No UI theme selected', 'TAG3');
+cl.error('Something went wrong', 'TAG2');
 ```
 
 ---
@@ -98,14 +98,14 @@ const cl = require('clean-logify');
 cl.config({
   enabledAll: true,
   tags: {
-    debug: {
+    debugTag: {
       color: 'teal',
       enabled: true,
     }
   }
 });
 
-cl.log('CJS works!', 'debug');
+cl.log('CJS works!', 'debugTag');
 ```
 
 ---
@@ -113,9 +113,9 @@ cl.log('CJS works!', 'debug');
 ## 🖨️ Console Output Example
 
 ```
-2025-04-13T22:18:51.199Z [AUTH] User signed in { name: 'Mike' } [ 1, 2, 3 ]
-2025-04-13T22:18:51.219Z [API] Fetching data...
-2025-04-13T22:18:51.220Z [UI] No UI theme selected
+2025-04-13T22:18:51.199Z [TAG1] User signed in { name: 'Mike' } [ 1, 2, 3 ]
+2025-04-13T22:18:51.219Z [TAG2] Fetching data...
+2025-04-13T22:18:51.220Z [TAG3] No UI theme selected
 ```
 
 ## Author

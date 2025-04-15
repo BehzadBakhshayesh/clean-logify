@@ -1,6 +1,6 @@
 {
   "name": "clean-logify",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Lightweight console logger with tag filtering and color support",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
